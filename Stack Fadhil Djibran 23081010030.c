@@ -27,6 +27,7 @@ typedef struct stack
 
 } stack;
 
+
 // node *createNode(void);
 void tambahStack(stack *stack);
 void hapusStack(stack *stack);
@@ -62,7 +63,6 @@ int main()
         printf("MASUKKAN PILIHAN (pilih X untuk keluar) : ");
         fflush(stdin);
         scanf(" %c", &pilih);
-
         if (pilih == '1')
             tambahStack(&stack);
         else if (pilih == '2')
@@ -266,3 +266,6 @@ void destroyStack(stack *stack)
         free(temp);
     }
 }
+
+//========================================================
+
