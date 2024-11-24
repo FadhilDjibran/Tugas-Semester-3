@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <conio.h>
 
 // Program Queue
@@ -7,7 +8,7 @@
 // Pemrograman Lanjut D081
 
 typedef struct node {
-    int data;
+    char data[50];
     struct node *link;
 } node;
 
@@ -62,40 +63,40 @@ int main() {
             case '3': queueFront(&queue); break;
             case '4': queueRear(&queue); break;
             case '5':
-            	system("cls");
-    			if (isEmpty(&queue)) {
-        			printf("Queue kosong.\n");
-    			} else {
-        			printf("Queue tidak kosong.\n");
-    			}
-    			printf("\nTekan tombol apapun untuk melanjutkan.");
-    			getch();
-    			break;
-			case '6':
-				system("cls");
-    			if (isFull(&queue)) {
-        			printf("Queue penuh.\n");
-    			} else {
-        			printf("Queue tidak penuh.\n");
-    			}
-    			printf("\nTekan tombol apapun untuk melanjutkan.");
-    			getch();
-			    break;
+                system("cls");
+                if (isEmpty(&queue)) {
+                    printf("Queue kosong.\n");
+                } else {
+                    printf("Queue tidak kosong.\n");
+                }
+                printf("\nTekan tombol apapun untuk melanjutkan.");
+                getch();
+                break;
+            case '6':
+                system("cls");
+                if (isFull(&queue)) {
+                    printf("Queue penuh.\n");
+                } else {
+                    printf("Queue tidak penuh.\n");
+                }
+                printf("\nTekan tombol apapun untuk melanjutkan.");
+                getch();
+                break;
             case '7':
-            	system("cls");
+                system("cls");
                 printf("Jumlah elemen dalam queue ada %d.\n", queueCount(&queue));
                 printf("\nTekan tombol apapun untuk melanjutkan.");
                 getch();
                 break;
             case '8':
-            	system("cls");
+                system("cls");
                 destroyQueue(&queue);
                 printf("Queue telah dihancurkan.\n");
                 printf("\nTekan tombol apapun untuk melanjutkan.");
                 getch();
                 break;
             case '0':
-            	system("cls");
+                system("cls");
                 traverse(&queue);
                 printf("\nTekan tombol apapun untuk melanjutkan.");
                 getch();
@@ -117,23 +118,24 @@ void createQueue(queueHead *queue) {
 //========================================================
 
 void enqueue(queueHead *queue) {
-	system("cls");
-    int bil;
+    system("cls");
+    char str[50];
     node *pNew;
 
     if (isFull(queue)) {
         printf("Queue penuh! Tidak dapat menambah elemen baru.\n");
         getch();
-        printf("\nTekan tombol apapun untuk melanjutkan.");
         return;
     }
 
-    printf("Masukkan bilangan: ");
-    scanf("%d", &bil);
+    printf("Masukkan data: ");
+    fflush(stdin);
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0'; // Menghapus newline dari input
 
     pNew = (node *)malloc(sizeof(node));
     if (pNew != NULL) {
-        pNew->data = bil;
+        strcpy(pNew->data, str);
         pNew->link = NULL;
         if (queue->rear == NULL) {
             queue->front = pNew;
@@ -144,7 +146,6 @@ void enqueue(queueHead *queue) {
         queue->count++;
     } else {
         printf("Alokasi memori gagal.\n");
-        printf("\nTekan tombol apapun untuk melanjutkan.");
         getch();
     }
     system("cls");
@@ -156,13 +157,12 @@ void enqueue(queueHead *queue) {
 //========================================================
 
 void dequeue(queueHead *queue) {
-	system("cls");
+    system("cls");
     node *pTemp;
 
     if (isEmpty(queue)) {
         printf("Queue kosong. Tidak ada elemen untuk dihapus.\n");
         getch();
-        printf("\nTekan tombol apapun untuk melanjutkan.");
         return;
     }
 
@@ -183,11 +183,11 @@ void dequeue(queueHead *queue) {
 //========================================================
 
 void queueFront(queueHead *queue) {
-	system("cls");
+    system("cls");
     if (isEmpty(queue)) {
         printf("Queue kosong.\n");
     } else {
-        printf("Data paling depan adalah %d\n", queue->front->data);
+        printf("Data paling depan adalah '%s'\n", queue->front->data);
     }
     printf("\nTekan tombol apapun untuk melanjutkan.");
     getch();
@@ -196,11 +196,11 @@ void queueFront(queueHead *queue) {
 //========================================================
 
 void queueRear(queueHead *queue) {
-	system("cls");
+    system("cls");
     if (isEmpty(queue)) {
         printf("Queue kosong.\n");
     } else {
-        printf("Data paling belakang adalah %d\n", queue->rear->data);
+        printf("Data paling belakang adalah '%s'\n", queue->rear->data);
     }
     printf("\nTekan tombol apapun untuk melanjutkan.");
     getch();
@@ -250,7 +250,7 @@ void traverse(queueHead *queue) {
 
     printf("Isi queue:\nFront <- ");
     while (pWalker != NULL) {
-        printf("%d", pWalker->data);
+        printf("%s", pWalker->data);
         pWalker = pWalker->link;
         if (pWalker != NULL) {
             printf(" <- ");
